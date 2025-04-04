@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import JSONResponse
 import csv
 import numpy as np
 from io import TextIOWrapper
@@ -2205,16 +2206,18 @@ async def predict_file(file: UploadFile = File(..., max_size=100_000_000)):
         nbr_ddos=compteur.get("DDoS", 0)
         nbr_benigh=compteur.get("BENIGN", 0)
         
-        return {
-            "summary":{
-               "total_connections": nbr_ddos+nbr_benigh,
-                "ddos_attacks":nbr_ddos,
-                "benign_connections":nbr_benigh,
-                "ddos_percentage": 100*nbr_ddos/(nbr_benigh+nbr_ddos),
-                "benign_percentage": 100*nbr_benigh/(nbr_benigh+nbr_ddos)
+         response = {
+            "summary": {
+                "total_connections": nbr_ddos + nbr_benigh,
+                "ddos_attacks": nbr_ddos,
+                "benign_connections": nbr_benigh,
+                "ddos_percentage": 100 * nbr_ddos / (nbr_benigh + nbr_ddos),
+                "benign_percentage": 100 * nbr_benigh / (nbr_benigh + nbr_ddos)
             },
             "predictions": predictions_completes
         }
+
+        return JSONResponse(content=response)
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur de traitement: {str(e)}")

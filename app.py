@@ -2189,7 +2189,7 @@ async def predict_file(file: UploadFile = File(..., max_size=100_000_000)):
                 converted_row.append(converted_value)
             converted_row.append(predict(converted_row))
             # dictionnaire = dict(zip(noms_colonnes, converted_row))
-            dictionnaire = dict(zip(["Port", "Prediction"], [int(converted_row[0]),converted_row[-1]]))
+            dictionnaire = dict(zip(["Port", "Prediction"], [converted_row[0],converted_row[-1]]))
             predictions.append(converted_row[-1])
             if nombre_predictions_completes<5:
               predictions_completes.append(dictionnaire)

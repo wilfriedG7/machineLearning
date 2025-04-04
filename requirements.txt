@@ -2,4 +2,3 @@ fastapi
 numpy
 python-multipart
 uvicorn
-collections

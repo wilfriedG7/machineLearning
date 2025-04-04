@@ -2,7 +2,6 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 import csv
 import numpy as np
 from io import TextIOWrapper
-from collections import Counter
 
 
 centers=np.array([[1.22077764e-03, 6.54130924e-01, 3.72846423e-03, 1.49079063e-03,
@@ -2195,7 +2194,13 @@ async def predict_file(file: UploadFile = File(..., max_size=100_000_000)):
             if nombre_predictions_completes<5:
               predictions_completes.append(dictionnaire)
               nombre_predictions_completes+=1
-            compteur = Counter(predictions)
+            compteur = {}
+            for valeur in predictions:
+                if valeur in compteur:
+                    compteur[valeur] += 1
+                else:
+                    compteur[valeur] = 1
+
 
         
         return {

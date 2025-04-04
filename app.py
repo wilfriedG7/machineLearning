@@ -2206,7 +2206,7 @@ async def predict_file(file: UploadFile = File(..., max_size=100_000_000)):
         nbr_ddos=compteur.get("DDoS", 0)
         nbr_benigh=compteur.get("BENIGN", 0)
         
-         response = {
+        response = {
             "summary": {
                 "total_connections": nbr_ddos + nbr_benigh,
                 "ddos_attacks": nbr_ddos,

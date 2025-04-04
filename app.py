@@ -2202,14 +2202,16 @@ async def predict_file(file: UploadFile = File(..., max_size=100_000_000)):
                     compteur[valeur] = 1
 
 
+        nbr_ddos=compteur.get("DDoS", 0)
+        nbr_benigh=compteur.get("BENIGN", 0)
         
         return {
             "summary":{
-               "total_connections": compteur["BENIGN"]+compteur["DDoS"],
-                "ddos_attacks":compteur["DDoS"],
-                "benign_connections":compteur["BENIGN"],
-                "ddos_percentage": 100*compteur["DDoS"]/(compteur["BENIGN"]+compteur["DDoS"]),
-                "benign_percentage": 100*compteur["BENIGN"]/(compteur["BENIGN"]+compteur["DDoS"])
+               "total_connections": nbr_ddos+nbr_benigh,
+                "ddos_attacks":nbr_ddos,
+                "benign_connections":nbr_benigh,
+                "ddos_percentage": 100*nbr_ddos/(nbr_benigh+nbr_ddos),
+                "benign_percentage": 100*nbr_benigh/(nbr_benigh+nbr_ddos)
             },
             "predictions": predictions_completes
         }
